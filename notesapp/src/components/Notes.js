@@ -72,8 +72,17 @@ export default function Notes() {
                             Date: {singleNote.creationDate}<br/>
                             Name:{singleNote.name}<br/>
                             Address:{singleNote.description}
-
+                            <h2> </h2>
+                            <Container>
+                            <Button variant="contained" color="secondary" onClick={handleClick}>
+                                Delete
+                            </Button>
+                            <Button variant="contained" color="secondary" onClick={handleClick}>
+                                Edit
+                            </Button>
+                                </Container>
                         </Paper>
+
                     ))
                 }
             </Paper>

@@ -1,6 +1,7 @@
 package com.example.Notes.App.controller;
 
 import com.example.Notes.App.dtos.CreateNoteDTO;
+import com.example.Notes.App.dtos.DeleteNoteDTO;
 import com.example.Notes.App.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,18 +21,25 @@ public class NotesController {
 
     @PostMapping("/notes")
     public ResponseEntity<Object> createNote(@RequestBody CreateNoteDTO dto) {
-        if(service.createNotes(dto.getName(),dto.getDescription())) {
+        if (service.createNotes(dto.getName(), dto.getDescription())) {
             return new ResponseEntity<>("Notes created with success.", HttpStatus.OK);
-        }
-        else {
+        } else {
             return new ResponseEntity<>("Operation failed.", HttpStatus.BAD_REQUEST);
         }
     }
 
     @RequestMapping("/notes")
     @ResponseBody
-    public ResponseEntity<Object> getNotes(){
-        return new ResponseEntity<>(service.findAllNotes(),HttpStatus.OK);
+    public ResponseEntity<Object> getNotes() {
+        return new ResponseEntity<>(service.findAllNotes(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/notes")
+    public ResponseEntity<Object> deleteNotes(@RequestBody DeleteNoteDTO dto) {
+        if (service.deleteById(dto.getId())) {
+            return new ResponseEntity<>("Notes succesfully deleted.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Operation Failed.", HttpStatus.OK);
+        }
+    }
 }

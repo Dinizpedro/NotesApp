@@ -26,8 +26,8 @@ public class NotesService {
     public boolean createNotes(String name, String description) {
         boolean result = false;
 
-        if(name.length()>0){
-            Notes notes = new Notes(name,description);
+        if (name.length() > 0) {
+            Notes notes = new Notes(name, description);
             result = true;
             repository.saveNotes(notes);
         }
@@ -38,11 +38,20 @@ public class NotesService {
         List<Notes> notes = repository.findAllNotes();
         List<NotesDTO> notesDTO = new ArrayList<>();
 
-        for(Notes note : notes) {
+        for (Notes note : notes) {
             NotesDTO noteDTO = mapper.toDTO(note);
             notesDTO.add(noteDTO);
         }
         return notesDTO;
+    }
+
+    public boolean deleteById(Long id) {
+        boolean result = false;
+        if (repository.existsById(id)) {
+            repository.deleteByID(id);
+            result = true;
+        }
+        return result;
     }
 
 }

@@ -41,4 +41,12 @@ public class NotesRepository {
         return notes;
     }
 
+    public void deleteByID(Long id) {
+        iNotes.deleteById(id);
+    }
+
+    public boolean existsById(Long id) {
+        return iNotes.existsById(id);
+    }
+
 }

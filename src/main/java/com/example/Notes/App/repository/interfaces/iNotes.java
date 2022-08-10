@@ -10,4 +10,8 @@ public interface iNotes extends JpaRepository<NotesJPA,Long> {
     <S extends NotesJPA> S save(S entity);
 
      List<NotesJPA> findAll();
+
+     void deleteById(Long id);
+
+     boolean existsById(Long id);
 }
