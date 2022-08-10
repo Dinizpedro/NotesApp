@@ -10,6 +10,7 @@ Tech stack:
 Design Patterns:
 - SOLID
 - Grasp
+- DDD
 
 Architecture:
 - Onion Architecture
