@@ -6,6 +6,7 @@ import com.example.Notes.App.repository.assembler.NoteAssembler;
 import com.example.Notes.App.repository.data.NotesJPA;
 import com.example.Notes.App.repository.interfaces.iNotes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -33,8 +34,9 @@ public class NotesRepository {
 
     public List<Notes> findAllNotes() {
         List<Notes> notes = new ArrayList<>();
+        List<NotesJPA> notesJPA = iNotes.findAll(Sort.by(Sort.Direction.DESC,"Id"));
 
-        for(NotesJPA noteJPA : iNotes.findAll()) {
+        for(NotesJPA noteJPA : notesJPA) {
             Notes note = assembler.toDomain(noteJPA);
             notes.add(note);
         }
