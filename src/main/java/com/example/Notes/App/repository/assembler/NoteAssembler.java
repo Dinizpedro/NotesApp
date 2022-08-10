@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 public class NoteAssembler {
 
     public Notes toDomain (NotesJPA notes) {
-        return new Notes(notes.getName(),notes.getDescription());
+        return new Notes(notes.getId(), notes.getName(),notes.getDescription(),notes.getCreationDate());
     }
     public NotesJPA toJPA (Notes notes) {
         return new NotesJPA(notes.getName(),notes.getDescription());

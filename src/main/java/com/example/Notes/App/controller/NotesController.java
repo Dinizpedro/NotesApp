@@ -5,9 +5,7 @@ import com.example.Notes.App.service.NotesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class NotesController {
@@ -27,6 +25,12 @@ public class NotesController {
         else {
             return new ResponseEntity<>("Operation failed.", HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @RequestMapping("/notes")
+    @ResponseBody
+    public ResponseEntity<Object> getNotes(){
+        return new ResponseEntity<>(service.findAllNotes(),HttpStatus.OK);
     }
 
 }

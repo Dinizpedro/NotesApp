@@ -8,6 +8,9 @@ import com.example.Notes.App.repository.interfaces.iNotes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Repository
 public class NotesRepository {
 
@@ -26,6 +29,16 @@ public class NotesRepository {
     public void saveNotes(Notes notes) {
             NotesJPA notesJPA = assembler.toJPA(notes);
             iNotes.save(notesJPA);
+    }
+
+    public List<Notes> findAllNotes() {
+        List<Notes> notes = new ArrayList<>();
+
+        for(NotesJPA noteJPA : iNotes.findAll()) {
+            Notes note = assembler.toDomain(noteJPA);
+            notes.add(note);
+        }
+        return notes;
     }
 
 }
