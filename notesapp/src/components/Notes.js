@@ -8,6 +8,8 @@ import Button from "@mui/material/Button";
 export default function Notes() {
     const paperStyle = {padding:'50px 20px', width: 600, margin:"20px auto"}
     const[name,setName] = useState('')
+    let result = ''
+    const [mess, setMess] = React.useState('');
     const[description,setDescription] = useState('')
     const handleClick =(e)=> {
         e.preventDefault()
@@ -16,9 +18,15 @@ export default function Notes() {
             method:"POST",
             headers: {"Content-Type":"application/json"},
             body:JSON.stringify(notes)
-        }).then(()=>{
-
+        }).then((response)=>{
+            setMess(response)
         })
+    }
+    if(mess.status >= 400) {
+        result = "Error: You can't create a note with no name!"
+    }
+    if(mess.status>=200 && mess.status<300 ) {
+        result = "Note successfully created."
     }
     return (
         <Container>
@@ -38,7 +46,10 @@ export default function Notes() {
             <Button variant="contained" color="secondary" onClick={handleClick}>
                 Submit
             </Button>
+
         </Box>
+            <h1></h1>
+            {result}
         </Paper>
         </Container>
     );
