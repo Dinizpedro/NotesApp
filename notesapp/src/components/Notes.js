@@ -4,9 +4,24 @@ import TextField from '@mui/material/TextField';
 import {Container, Paper} from "@mui/material";
 import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogActions from "@mui/material/DialogActions";
+import Dialog from "@mui/material/Dialog";
 
 
 export default function Notes() {
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
     const paperStyle = {padding:'20px 20px', width: 600, margin:"20px auto"}
     const[name,setName] = useState('')
     const[id,setId]=useState('')
@@ -92,6 +107,36 @@ export default function Notes() {
                             <Button variant="contained" color="secondary" onClick={()=>deleteNote(singleNote.id)}>
                                 Delete
                             </Button >
+                                <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                    Edit
+                                </Button >
+                                <Dialog open={open} onClose={handleClose}>
+                                    <DialogTitle>Edit Note</DialogTitle>
+                                    <DialogContent>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="name"
+                                            label="Name"
+                                            type="email"
+                                            fullWidth
+                                            variant="standard"
+                                        />
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="name"
+                                            label="Description"
+                                            type="email"
+                                            fullWidth
+                                            variant="standard"
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button onClick={handleClose}>Cancel</Button>
+                                        <Button onClick={handleClose}>Submit</Button>
+                                    </DialogActions>
+                                </Dialog>
                                 </Container>
                         </Paper>
                     ))

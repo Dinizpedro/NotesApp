@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class NotesRepository {
@@ -49,6 +50,30 @@ public class NotesRepository {
 
     public boolean existsById(Long id) {
         return iNotes.existsById(id);
+    }
+
+    public Optional<Notes> findById(Long id) {
+
+        if(iNotes.findById(id).isPresent()) {
+            Notes note = assembler.toDomain(iNotes.findById(id).get());
+            return Optional.ofNullable(note);
+        }
+        else {
+            return Optional.empty();
+        }
+
+    }
+
+    public boolean updateNote(long id, String name, String description) {
+        boolean result = false;
+        Optional<NotesJPA> note = iNotes.findById(id);
+        if(note.isPresent()) {
+            note.get().setName(name);
+            note.get().setDescription(description);
+            iNotes.save(note.get());
+            result = true;
+        }
+        return result;
     }
 
 }

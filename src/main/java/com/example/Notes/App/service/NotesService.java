@@ -54,4 +54,9 @@ public class NotesService {
         return result;
     }
 
+    public boolean updateNote(Long id, String name,String description) {
+
+        return repository.updateNote(id,name,description);
+    }
+
 }
