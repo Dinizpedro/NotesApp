@@ -5,9 +5,11 @@ import {Container, Paper} from "@mui/material";
 import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 
+
 export default function Notes() {
     const paperStyle = {padding:'20px 20px', width: 600, margin:"20px auto"}
     const[name,setName] = useState('')
+    const[id,setId]=useState('')
     let result = ''
     const [mess, setMess] = React.useState('');
     const[description,setDescription] = useState('')
@@ -20,9 +22,18 @@ export default function Notes() {
                 setAllnotes(result);
                 }
             )
-    },[])
+    },allnotes)
 
-    const handleClick =(e)=> {
+    const deleteNote =(id)=> {
+        fetch("http://localhost:8080/notes", {
+            method:"DELETE",
+            headers: {"Content-Type":"application/json"},
+            body:JSON.stringify(id)
+        }).then((response)=>{
+        })
+    }
+
+    const createNote =(e)=> {
         e.preventDefault()
         const notes = {name,description}
         fetch("http://localhost:8080/notes", {
@@ -31,8 +42,10 @@ export default function Notes() {
             body:JSON.stringify(notes)
         }).then((response)=>{
             setMess(response)
+
         })
     }
+
     if(mess.status >= 400) {
         result = "Error: You can't create a note with no name!"
     }
@@ -54,7 +67,7 @@ export default function Notes() {
             <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {name} onChange={(e)=>setName(e.target.value)}/>
 
             <TextField id="outlined-basic" label="Description" variant="outlined" fullWidth value = {description} onChange={(e)=>setDescription(e.target.value)} />
-            <Button variant="contained" color="secondary" onClick={handleClick}>
+            <Button variant="contained" color="secondary" onClick={createNote}>
                 Submit
             </Button>
             <h1></h1>
@@ -65,7 +78,6 @@ export default function Notes() {
 
             <h1> Notes </h1>
             <Paper elevation={3} style={paperStyle}>
-
                 {
                     allnotes.map(singleNote=>(
                         <Paper elevation={6} style={{margin:"10px",padding:"15px", textAlign:"left"}} key={singleNote.id}>
@@ -74,19 +86,14 @@ export default function Notes() {
                             Address:{singleNote.description}
                             <h2> </h2>
                             <Container>
-                            <Button variant="contained" color="secondary" onClick={handleClick}>
+                            <Button variant="contained" color="secondary" onClick={()=>deleteNote(singleNote.id)}>
                                 Delete
-                            </Button>
-                            <Button variant="contained" color="secondary" onClick={handleClick}>
-                                Edit
-                            </Button>
+                            </Button >
                                 </Container>
                         </Paper>
-
                     ))
                 }
             </Paper>
-
         </Container>
     );
 }
