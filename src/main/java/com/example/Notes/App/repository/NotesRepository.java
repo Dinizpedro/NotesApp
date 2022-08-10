@@ -1,10 +1,14 @@
 package com.example.Notes.App.repository;
 
 
+import com.example.Notes.App.domain.Notes;
 import com.example.Notes.App.repository.assembler.NoteAssembler;
+import com.example.Notes.App.repository.data.NotesJPA;
 import com.example.Notes.App.repository.interfaces.iNotes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class NotesRepository {
 
     @Autowired
@@ -19,10 +23,9 @@ public class NotesRepository {
         this.iNotes = iNotes;
     }
 
-    public void createNotes(String name, String description) {
-
-
-
+    public void saveNotes(Notes notes) {
+            NotesJPA notesJPA = assembler.toJPA(notes);
+            iNotes.save(notesJPA);
     }
 
 }

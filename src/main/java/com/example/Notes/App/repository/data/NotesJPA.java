@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 
 @Entity
 public class NotesJPA {
@@ -14,10 +15,11 @@ public class NotesJPA {
     private String name;
     private String description;
 
-
+    private LocalDate creationDate = LocalDate.now();
 
     public NotesJPA(String name, String description) {
-
+        this.name=name;
+        this.description=description;
     }
 
     public Long getId() {
@@ -42,5 +44,13 @@ public class NotesJPA {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 }

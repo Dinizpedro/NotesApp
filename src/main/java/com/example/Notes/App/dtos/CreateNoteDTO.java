@@ -1,12 +1,10 @@
-package com.example.Notes.App.domain;
+package com.example.Notes.App.dtos;
 
-
-public class Notes {
-
+public class CreateNoteDTO {
     private String name;
     private String description;
 
-    public Notes(String name, String description) {
+    public CreateNoteDTO(String name, String description) {
         this.name = name;
         this.description = description;
     }
