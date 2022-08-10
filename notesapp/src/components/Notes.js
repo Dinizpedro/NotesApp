@@ -22,7 +22,7 @@ export default function Notes() {
                 setAllnotes(result);
                 }
             )
-    },allnotes)
+    },[allnotes])
 
     const deleteNote =(id)=> {
         fetch("http://localhost:8080/notes", {
@@ -44,6 +44,9 @@ export default function Notes() {
             setMess(response)
 
         })
+        if(allnotes.length===0) {
+            window.location.reload();
+        }
     }
 
     if(mess.status >= 400) {

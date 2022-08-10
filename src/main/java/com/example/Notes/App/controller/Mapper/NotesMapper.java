@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotesMapper {
     public NotesDTO toDTO(Notes note) {
-        return new NotesDTO(note.getId(), note.getName(), note.getDescription(), note.getCreationDate());
+        return new NotesDTO(note.getId(), ' '+note.getName(), ' '+ note.getDescription(), note.getCreationDate());
     }
 }
