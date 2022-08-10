@@ -12,10 +12,12 @@ import Dialog from "@mui/material/Dialog";
 
 
 export default function Notes() {
+    const[id,setId]=useState('')
     const [open, setOpen] = React.useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    const handleClickOpen = (id) => {
+        setOpen(true)
+        setId(id)
     };
 
     const handleClose = () => {
@@ -24,11 +26,21 @@ export default function Notes() {
 
     const paperStyle = {padding:'20px 20px', width: 600, margin:"20px auto"}
     const[name,setName] = useState('')
-    const[id,setId]=useState('')
+
+    const[newName,setNewName]=useState('')
+    const[newDescription,setNewDescription]=useState('')
     let result = ''
     const [mess, setMess] = React.useState('');
     const[description,setDescription] = useState('')
     const[allnotes,setAllnotes]= useState( [])
+
+    const handleNewNameChange = (event) => {
+        setNewName(event.target.value);
+    };
+
+    const handleNewDescriptionChange = (event) => {
+        setNewDescription(event.target.value);
+    };
 
     useEffect(()=>{
         fetch("http://localhost:8080/notes")
@@ -63,6 +75,20 @@ export default function Notes() {
             window.location.reload();
         }
     }
+
+    const editNote =()=> {
+        const newNote = {id,newName,newDescription}
+        fetch("http://localhost:8080/notes", {
+            method:"PATCH",
+            headers: {"Content-Type":"application/json"},
+            body:JSON.stringify(newNote)
+        }).then((response)=>{
+        })
+        console.log(id)
+        console.log(newName)
+        console.log(newDescription)
+    }
+
 
     if(mess.status >= 400) {
         result = "Error: You can't create a note with no name!"
@@ -107,7 +133,7 @@ export default function Notes() {
                             <Button variant="contained" color="secondary" onClick={()=>deleteNote(singleNote.id)}>
                                 Delete
                             </Button >
-                                <Button variant="contained" color="secondary" onClick={handleClickOpen}>
+                                <Button variant="contained" color="secondary" onClick={()=>handleClickOpen(singleNote.id)}>
                                     Edit
                                 </Button >
                                 <Dialog open={open} onClose={handleClose}>
@@ -121,6 +147,7 @@ export default function Notes() {
                                             type="email"
                                             fullWidth
                                             variant="standard"
+                                            onChange={handleNewNameChange}
                                         />
                                         <TextField
                                             autoFocus
@@ -130,11 +157,12 @@ export default function Notes() {
                                             type="email"
                                             fullWidth
                                             variant="standard"
+                                            onChange={handleNewDescriptionChange}
                                         />
                                     </DialogContent>
                                     <DialogActions>
                                         <Button onClick={handleClose}>Cancel</Button>
-                                        <Button onClick={handleClose}>Submit</Button>
+                                        <Button onClick={()=>editNote(id)}>Submit</Button>
                                     </DialogActions>
                                 </Dialog>
                                 </Container>
