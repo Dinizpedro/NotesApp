@@ -6,9 +6,9 @@ import {useEffect, useState} from "react";
 import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogActions from "@mui/material/DialogActions";
 import Dialog from "@mui/material/Dialog";
+
 
 
 export default function Notes() {
@@ -20,13 +20,17 @@ export default function Notes() {
         setId(id)
     };
 
+    const style = {
+        minWidth: 1
+    }
+
     const handleClose = () => {
         setOpen(false);
     };
 
     const paperStyle = {padding:'20px 20px', width: 600, margin:"20px auto"}
     const[name,setName] = useState('')
-
+    const[text,setText] = useState('')
     const[newName,setNewName]=useState('')
     const[newDescription,setNewDescription]=useState('')
     let result = ''
@@ -40,6 +44,7 @@ export default function Notes() {
 
     const handleNewDescriptionChange = (event) => {
         setNewDescription(event.target.value);
+
     };
 
     useEffect(()=>{
@@ -60,6 +65,12 @@ export default function Notes() {
         })
     }
 
+
+    const getText = (event) => {
+        setText(event.target.value);
+        return event;
+    };
+
     const createNote =(e)=> {
         e.preventDefault()
         const notes = {name,description}
@@ -77,16 +88,16 @@ export default function Notes() {
     }
 
     const editNote =()=> {
-        const newNote = {id,newName,newDescription}
+        const name = newName;
+        const description = newDescription;
+        const newNote = {id,name,description}
         fetch("http://localhost:8080/notes", {
             method:"PATCH",
             headers: {"Content-Type":"application/json"},
             body:JSON.stringify(newNote)
         }).then((response)=>{
         })
-        console.log(id)
-        console.log(newName)
-        console.log(newDescription)
+        handleClose()
     }
 
 
@@ -111,7 +122,7 @@ export default function Notes() {
             <TextField id="outlined-basic" label="Name" variant="outlined" fullWidth value = {name} onChange={(e)=>setName(e.target.value)}/>
 
             <TextField id="outlined-basic" label="Description" variant="outlined" fullWidth value = {description} onChange={(e)=>setDescription(e.target.value)} />
-            <Button variant="contained" color="secondary" onClick={createNote}>
+            <Button variant="contained" color="primary" onClick={createNote}>
                 Submit
             </Button>
             <h1></h1>
@@ -130,12 +141,15 @@ export default function Notes() {
                             Address:{singleNote.description}
                             <h2> </h2>
                             <Container>
-                            <Button variant="contained" color="secondary" onClick={()=>deleteNote(singleNote.id)}>
+
+                            <Button variant="contained" color="primary" onClick={()=>deleteNote(singleNote.id)} >
                                 Delete
                             </Button >
-                                <Button variant="contained" color="secondary" onClick={()=>handleClickOpen(singleNote.id)}>
+                                {' '}{'   '}
+                                <Button variant="contained" color="primary" onClick={()=>handleClickOpen(singleNote.id)}>
                                     Edit
                                 </Button >
+
                                 <Dialog open={open} onClose={handleClose}>
                                     <DialogTitle>Edit Note</DialogTitle>
                                     <DialogContent>
@@ -161,7 +175,7 @@ export default function Notes() {
                                         />
                                     </DialogContent>
                                     <DialogActions>
-                                        <Button onClick={handleClose}>Cancel</Button>
+                                        <Button onClick={handleClose} >Cancel</Button>
                                         <Button onClick={()=>editNote(id)}>Submit</Button>
                                     </DialogActions>
                                 </Dialog>
