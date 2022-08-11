@@ -1,6 +1,6 @@
 # NotesApp
 
-A basic web application to create and save notes.
+A basic web application to create, save and manage notes.
 
 Tech stack:
 - Front end: React + Material UI
