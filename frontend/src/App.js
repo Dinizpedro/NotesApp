@@ -1,13 +1,18 @@
-import ButtonAppBar from './components/Appbar'
 import './App.css';
-import Notes from "./components/Notes";
+import MainRoute from "./routes/MainRoute";
+
+
 
 function App() {
+
     return (
         <div className="App">
-            <ButtonAppBar/>
-            <Notes/>
+            <MainRoute/>
+            <h1>Welcome to Notes-App</h1>
+            <h3><a href="http://localhost:3000/register"> Register </a></h3>
+            <h3><a href="http://localhost:3000/login"> Login </a></h3>
         </div>
+
     );
 }
 
